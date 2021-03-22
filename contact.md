@@ -1,5 +1,6 @@
 ---
 title: Contact
+description: test
 layout: contact
 bodyClass: page-contact
 ---
