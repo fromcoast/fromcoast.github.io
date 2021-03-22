@@ -5,43 +5,34 @@ post_class: post-template
 
 <!-- Begin Article
 ================================================== -->
-<div class="container">
-    <div class="row">
+<div class="container pb-6 pt-6 pt-md-10 pb-md-10">
+    <div class="row justify-content-start">
+        <div class="col-12 col-md-8">
+            <div class="service service-single">
 
         <!-- Post -->
-        <div class="col-md-9 flex-first flex-md-unordered">
-            <div class="mainheading">
-
-
-
                 <!-- Post Title -->
-                <h1 class="posttitle">{{ page.title }}</h1>
+                <h1 class="title">{{ page.title }}</h1>
+
+                <!-- Post Content -->
+                <div class="content">
+                  <p>{{content}}</p>
+                </div>
+
+                <!-- Post Date -->
+                <p>
+                 <small>
+                  <span class="post-date"><time class="post-date" datetime="{{ page.date | date:"%Y-%m-%d" }}">{{ page.date | date_to_string }}</time></span>           
+                  {% if page.last_modified_at %}
+                  (Updated: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified">{{ page.last_modified_at | date: "%b %-d, %Y" }}</time>)
+                  {% endif %}
+                 </small>
+               </p>
 
             </div>
-
-
-            <!-- Post Featured Image -->
-            <img class="featured-image img-fluid" src="{% if page.image contains "://" %}{{ page.image }}{% else %}{{ site.baseurl }}/{{ page.image }}{% endif %}" alt="{{ page.title }}">
-            <!-- End Featured Image -->
-
-            <!-- Post Content -->
-            <div class="article-post">
-                {{content}}
-            </div>
-
-            <!-- Post Date -->
-            <p>
-            <small>
-                <span class="post-date"><time class="post-date" datetime="{{ page.date | date:"%Y-%m-%d" }}">{{ page.date | date_to_string }}</time></span>           
-                {% if page.last_modified_at %}
-                (Updated: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified">{{ page.last_modified_at | date: "%b %-d, %Y" }}</time>)
-                {% endif %}
-            </small>
-            </p>
-
-        </div>
         <!-- End Post -->
 
+      </div>
     </div>
 </div>
 <!-- End Article
