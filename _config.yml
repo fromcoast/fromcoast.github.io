@@ -1,5 +1,4 @@
 baseurl: '/'
-paginate: 5
 permalink: pretty
 title: 'Jekyll Serif'
 
