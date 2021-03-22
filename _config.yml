@@ -1,5 +1,5 @@
 baseurl: '/'
-permalink: /:title
+permalink: /:title/
 title: 'Jekyll Serif'
 
 google_analytics_id: ""
