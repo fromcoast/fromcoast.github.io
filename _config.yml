@@ -35,6 +35,7 @@ sass:
   indentWidth: 4
   style: compact # possible values: nested expanded compact compressed
   precision: 10
+  style: compressed
 
 plugins:
   - jekyll-environment-variables
