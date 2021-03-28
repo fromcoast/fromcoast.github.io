@@ -3,7 +3,11 @@ layout: default
 title: Magazine
 ---
 
-<style>  
+<style>
+h2 {
+    font-size: 22px;
+}
+  
 .rounded {
     border-radius: .25rem!important;
 }
@@ -62,7 +66,7 @@ title: Magazine
           <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
             <div class="col p-3 d-flex flex-column position-static">
             <!-- <strong class="d-inline-block mb-2 text-primary">World</strong> -->
-            <h2 class="service-title mb-0"><a href="{{ post.url | absolute_url }}">{{ post.title }}</a></h2>
+            <h2 class="service-title"><a href="{{ post.url | absolute_url }}">{{ post.title }}</a></h2>
             <!-- <div class="mb-1 text-muted">Nov 12</div> -->
             <p class="card-text">{{ post.content | strip_html | truncatewords:10 }}</p>
             <a href="{{ post.url | absolute_url }}" class="stretched-link">Continua</a>
