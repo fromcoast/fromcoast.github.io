@@ -9,35 +9,41 @@
 </head>
 <body>
   <h1>Contattaci</h1>
-  <form action="thankyou.html" method="post" onsubmit="return validateForm()">
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" required>
-    <br>
-    <label for="cognome">Cognome:</label>
-    <input type="text" id="cognome" name="cognome" required>
-    <br>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <br>
-    <label for="telefono">Telefono:</label>
-    <input type="tel" id="telefono" name="telefono" required>
-    <br>
-    <br>
-    <button type="submit">Invia</button>
-  </form>
-  <script>
-    function validateForm() {
-      let nome = document.getElementById("nome").value;
-      let cognome = document.getElementById("cognome").value;
-      let email = document.getElementById("email").value;
-      let telefono = document.getElementById("telefono").value;
-      if (nome === "" || cognome === "" || email === "" || telefono === "") {
-        alert("Compilare tutti i campi obbligatori");
-        return false;
-      }
-      return true;
-    }
-  </script>
+<form method="post" action="https://forms.un-static.com/forms/YOUR_ENDPOINT_REFERENCE">
+  <div class="form-group row">
+    <label for="name" class="col-4 col-form-label">Name</label>
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-addon">
+          <i class="fa fa-user"></i>
+        </div>
+        <input id="name" name="name" placeholder="Please enter your name" type="text" required="required" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="email" class="col-4 col-form-label">E-mail address</label>
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-addon">
+          <i class="fa fa-envelope"></i>
+        </div>
+        <input id="email" name="email" placeholder="Your e-mail address" type="text" required="required" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="message" class="col-4 col-form-label">Message</label>
+    <div class="col-8">
+      <textarea id="message" name="message" cols="40" rows="10" required="required" class="form-control"></textarea>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="offset-4 col-8">
+      <button name="submit" type="submit" class="btn btn-primary">Send</button>
+    </div>
+  </div>
+</form>
 </body>
       </html>
   
