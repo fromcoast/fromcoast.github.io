@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
   <title>Modulo di Contatto</title>
-  <link rel="stylesheet" href="style.css">
   <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -20,7 +19,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
   <h1>Contattaci</h1>
-  <form method="post">
+  <form method="post" action="thankyou.html" onsubmit="return validateForm()">
     <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome" required>
     <br>
@@ -36,6 +35,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <br>
     <button type="submit" id="submit">Invia</button>
   </form>
+  <script>
+    function validateForm() {
+      let nome = document.getElementById("nome").value;
+      let cognome = document.getElementById("cognome").value;
+      let email = document.getElementById("email").value;
+      let telefono = document.getElementById("telefono").value;
+      if (nome === "" || cognome === "" || email === "" || telefono === "") {
+        alert("Compilare tutti i campi obbligatori");
+        return false;
+      }
+      return true;
+    }
+  </script>  
 </body>
 </html>
 <script>
