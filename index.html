@@ -19,7 +19,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
   <h1>Contattaci</h1>
-  <form onsubmit="return validateForm()">
+  <form onsubmit="return redirect()">
     <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome" required>
     <br>
@@ -35,19 +35,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <br>
     <button type="submit" id="submit">Invia</button>
   </form>
-  <script>
-    function validateForm() {
-      let nome = document.getElementById("nome").value;
-      let cognome = document.getElementById("cognome").value;
-      let email = document.getElementById("email").value;
-      let telefono = document.getElementById("telefono").value;
-      if (nome === "" || cognome === "" || email === "" || telefono === "") {
-        alert("Compilare tutti i campi obbligatori");
-        return false;
-      }
-      return true;
-    }
-  </script>  
 </body>
 </html>
 <script>
@@ -55,6 +42,4 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const thankYouPageUrl = "https://fromcoast.github.io/thankyou.html";
   window.location.href = thankYouPageUrl;
 }
-const button = document.getElementById("submit");
-button.addEventListener("click", redirect);
 </script>
