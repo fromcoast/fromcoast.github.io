@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiniPocket</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>MiniPocket</h1>
+    <input type="file" id="csvFile" accept=".csv">
+  </header>
+
+  <section id="add-bookmark">
+    <h2>Aggiungi segnalibro</h2>
+    <form id="bookmarkForm">
+      <input type="text" id="title" placeholder="Titolo" required>
+      <input type="url" id="url" placeholder="URL" required>
+      <input type="text" id="tags" placeholder="Tag (separati da |)">
+      <button type="submit">Aggiungi</button>
+    </form>
+  </section>
+
+  <section id="bookmarks">
+    <h2>Segnalibri</h2>
+    <ul id="bookmarkList"></ul>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
