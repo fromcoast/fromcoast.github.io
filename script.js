@@ -1,7 +1,7 @@
-const GITHUB_USERNAME = "fromc";
-const REPO_NAME = "fromc.github.io";
+const GITHUB_USERNAME = "fromcoast";
+const REPO_NAME = "fromcoast.github.io";
 const FILE_PATH = "bookmarks.json";
-const GITHUB_TOKEN = "INSERISCI_IL_TUO_TOKEN"; // Inserisci qui il tuo token personale
+const GITHUB_TOKEN = "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"; // Inserisci qui il tuo token personale
 
 const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
 
