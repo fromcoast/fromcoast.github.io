@@ -1,49 +1,86 @@
-// script.js
+const GITHUB_USERNAME = "fromc";
+const REPO_NAME = "fromc.github.io";
+const FILE_PATH = "bookmarks.json";
+const GITHUB_TOKEN = "INSERISCI_IL_TUO_TOKEN"; // Inserisci qui il tuo token personale
 
-function loadBookmarks() {
-  const data = JSON.parse(localStorage.getItem("bookmarks") || "[]");
-  renderBookmarks(data);
+const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
+
+let sha = ""; // per aggiornamenti GitHub
+
+async function getBookmarks() {
+  const res = await fetch(API_URL, {
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
+    },
+  });
+  if (!res.ok) {
+    console.error("Errore nel recupero dei dati");
+    return [];
+  }
+  const data = await res.json();
+  sha = data.sha;
+  const content = atob(data.content);
+  return JSON.parse(content);
 }
 
-function renderBookmarks(bookmarks) {
-  const list = document.getElementById("bookmarkList");
+async function saveBookmarks(bookmarks) {
+  const content = btoa(JSON.stringify(bookmarks, null, 2));
+  const res = await fetch(API_URL, {
+    method: "PUT",
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
+    },
+    body: JSON.stringify({
+      message: "Aggiorna bookmarks",
+      content: content,
+      sha: sha,
+    }),
+  });
+  if (!res.ok) console.error("Errore nel salvataggio");
+}
+
+function render(bookmarks) {
+  const list = document.getElementById("bookmarks-list");
   list.innerHTML = "";
-  bookmarks.forEach(({ title, url, tags }) => {
+  bookmarks.forEach((b) => {
     const li = document.createElement("li");
-    li.innerHTML = `<a href="${url}" target="_blank">${title}</a><br><small>${tags}</small>`;
+    li.innerHTML = `<a href="${b.url}" target="_blank">${b.title || b.url}</a>`;
     list.appendChild(li);
   });
 }
 
-function addBookmark(e) {
+document.getElementById("bookmark-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const title = document.getElementById("title").value.trim();
   const url = document.getElementById("url").value.trim();
-  const tags = document.getElementById("tags").value.trim();
+  const title = document.getElementById("title").value.trim();
+  if (!url) return;
 
-  const bookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
-  bookmarks.unshift({ title, url, tags });
-  localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-  document.getElementById("bookmarkForm").reset();
-  renderBookmarks(bookmarks);
-}
+  const bookmarks = await getBookmarks();
+  bookmarks.unshift({ url, title });
+  await saveBookmarks(bookmarks);
+  render(bookmarks);
+  e.target.reset();
+});
 
-function importCSV(file) {
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const lines = e.target.result.split("\n").slice(1);
-    const bookmarks = lines.map(line => {
-      const [title, url, time, tags] = line.split(",").map(x => x?.replace(/^\"|\"$/g, "").trim());
-      return { title, url, tags };
-    }).filter(b => b.title && b.url);
-    const existing = JSON.parse(localStorage.getItem("bookmarks") || "[]");
-    localStorage.setItem("bookmarks", JSON.stringify([...bookmarks, ...existing]));
-    renderBookmarks([...bookmarks, ...existing]);
-  };
-  reader.readAsText(file);
-}
+document.getElementById("csv-file").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const text = await file.text();
+  const lines = text.trim().split("\n").slice(1);
+  const newBookmarks = lines.map(line => {
+    const [url, title] = line.split(",").map(x => x.replace(/^"|"$/g, "").trim());
+    return { url, title };
+  });
 
-document.getElementById("bookmarkForm").addEventListener("submit", addBookmark);
-document.getElementById("csvFile").addEventListener("change", e => importCSV(e.target.files[0]));
+  const bookmarks = await getBookmarks();
+  const merged = [...newBookmarks, ...bookmarks];
+  await saveBookmarks(merged);
+  render(merged);
+});
 
-loadBookmarks();
+window.addEventListener("DOMContentLoaded", async () => {
+  const bookmarks = await getBookmarks();
+  render(bookmarks);
+});
