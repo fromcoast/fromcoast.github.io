@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diego Dalla Costa - SEO & Digital Marketing</title>
+  <meta name="description" content="SEO specialist, PPC e copywriting. Nato come SEO, cresciuto come marketer, ecc." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --bg-2:      #111118;
+      --bg-3:      #18181f;
+      --surface:   #1e1e28;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #e8e8f0;
+      --muted:     #7a7a90;
+      --accent:    #ff4d2e;
+      --accent-2:  #ffb347;
+      --accent-3:  #00e5c0;
+      --font-display: 'DM Serif Display', serif;
+      --font-mono:    'DM Mono', monospace;
+      --font-sans:    'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── CUSTOM CURSOR ───────────────────────────────────────────────
+    .cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 12px; height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+      mix-blend-mode: normal;
+    }
+    .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(255,77,46,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.25s ease, height 0.25s ease, border-color 0.2s ease;
+    }
+    body.cursor-hover .cursor { width: 8px; height: 8px; background: var(--accent-2); }
+    body.cursor-hover .cursor-ring { width: 52px; height: 52px; border-color: rgba(255,179,71,0.6); }
+
+    @media (pointer: coarse) {
+      .cursor, .cursor-ring { display: none; }
+      body { cursor: auto; }
+    } */
+
+    /* ─── NOISE OVERLAY ─────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ─── NAV ────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      background: rgba(10,10,15,0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s ease;
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: none;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-burger span {
+      display: block;
+      width: 24px; height: 1.5px;
+      background: var(--muted);
+      transition: all 0.3s ease;
+    }
+
+    @media (pointer: coarse) { .nav-burger { cursor: pointer; } }
+
+    @media (max-width: 640px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-links { display: none; flex-direction: column; gap: 1.5rem; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-2); padding: 2rem 1.5rem; border-bottom: 1px solid var(--border); }
+      .nav-links.open { display: flex; }
+      .nav-burger { display: flex; }
+    }
+
+    /* ─── HERO ──────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      padding: 8rem 2.5rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-left { position: relative; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.2s forwards;
+    }
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 24px; height: 1px;
+      background: var(--accent);
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.4s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent-2);
+    }
+
+    .hero-intro {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.6s forwards;
+    }
+    .hero-intro strong { color: var(--text); font-weight: 600; }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.8s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 1.8rem;
+      border-radius: 3px;
+      transition: all 0.25s ease;
+      cursor: none;
+    }
+    @media (pointer: coarse) { .btn { cursor: pointer; } }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 1.5px solid var(--accent);
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--muted);
+      color: var(--text);
+    }
+
+    /* Hero right: avatar placeholder */
+    .hero-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 0.9s forwards;
+    }
+    .avatar-wrap {
+      position: relative;
+      width: clamp(220px, 30vw, 380px);
+      aspect-ratio: 1;
+    }
+    .avatar-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 40% 60% 55% 45% / 45% 50% 60% 55%;
+      background: linear-gradient(135deg, rgba(255,77,46,0.15) 0%, rgba(0,229,192,0.10) 100%);
+      border: 1.5px solid rgba(255,77,46,0.2);
+      animation: morphBlob 8s ease-in-out infinite;
+    }
+    .avatar-inner {
+	  position: absolute;
+      inset: 12%;
+      border-radius: 40% 60% 55% 45% / 45% 50% 60% 55%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden; /* Fondamentale per ritagliare la foto */
+      animation: morphBlob 8s ease-in-out infinite reverse;
+    }
+	.avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Mantiene le proporzioni della foto senza schiacciarla */
+      filter: grayscale(20%); /* Opzionale: un tocco di grigio per renderla più "moody" */
+      transition: transform 0.5s ease;
+    }
+
+    .avatar-inner:hover .avatar-img {
+      transform: scale(1.1); /* Effetto zoom al passaggio del mouse */
+    }	
+    .avatar-initials {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .avatar-initials em { color: var(--accent); font-style: italic; }
+    .avatar-sub {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .avatar-dot {
+      position: absolute;
+      width: 10px; height: 10px;
+      background: var(--accent-3);
+      border-radius: 50%;
+      top: 18%; right: 15%;
+      animation: pulse 2s ease infinite;
+    }
+    .avatar-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: rgba(0,229,192,0.2);
+      animation: pulse 2s ease infinite 0.5s;
+    }
+
+    @keyframes morphBlob {
+      0%, 100% { border-radius: 40% 60% 55% 45% / 45% 50% 60% 55%; }
+      33%       { border-radius: 55% 45% 40% 60% / 60% 40% 55% 45%; }
+      66%       { border-radius: 45% 55% 60% 40% / 50% 60% 45% 55%; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.3); opacity: 0.7; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeIn 0.6s ease 1.4s forwards;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+      animation: scrollAnim 1.8s ease infinite;
+    }
+    @keyframes scrollAnim {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    @media (max-width: 768px) {
+      #hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 7rem 1.5rem 5rem;
+        gap: 3rem;
+      }
+      .hero-intro { margin-left: auto; margin-right: auto; }
+      .hero-ctas { justify-content: center; }
+      .hero-right { order: -1; }
+      .avatar-wrap { width: 200px; }
+      .scroll-hint { display: none; }
+    }
+
+    /* ─── SECTION BASE ──────────────────────────────────────────────── */
+    section { padding: 6rem 2.5rem; }
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 20px; height: 1px;
+      background: var(--accent);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .section-title em { font-style: italic; color: var(--accent-2); }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ─── DIVIDER ────────────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ─── CHI SONO ──────────────────────────────────────────────────── */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+      margin-top: 3.5rem;
+    }
+    .about-text p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 600; }
+    .about-text p .highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .about-aside { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .aside-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .aside-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s ease;
+    }
+    .aside-card:hover { border-color: rgba(255,77,46,0.3); transform: translateX(4px); }
+    .aside-card:hover::before { transform: scaleY(1); }
+    .aside-card-icon {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .aside-card-title {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .aside-card-body {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* ─── COMPETENZE ────────────────────────────────────────────────── */
+    #skills { background: var(--bg-2); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .skill-card {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem 1.75rem;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .skill-card:hover { border-color: rgba(255,77,46,0.25); transform: translateY(-4px); }
+    .skill-card:hover::after { transform: scaleX(1); }
+    .skill-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .skill-name {
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .skill-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .skill-tools {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .skill-tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(255,77,46,0.08);
+      border: 1px solid rgba(255,77,46,0.2);
+      border-radius: 3px;
+      padding: 0.2rem 0.55rem;
+    }
+
+    @media (max-width: 900px) { .skills-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .skills-grid { grid-template-columns: 1fr; } }
+
+    /* ─── QUOTE ─────────────────────────────────────────────────────── */
+    #quote {
+      background: var(--bg);
+      padding: 7rem 2.5rem;
+    }
+    .quote-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .quote-mark {
+      font-family: var(--font-display);
+      font-size: 8rem;
+      line-height: 0.6;
+      color: var(--accent);
+      opacity: 0.15;
+      display: block;
+      margin-bottom: -1rem;
+    }
+    .quote-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 3vw, 2.1rem);
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .quote-author {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .quote-author span { color: var(--accent); }
+
+    /* ─── EXTRA / FUN FACTS ──────────────────────────────────────────── */
+    #extra { background: var(--bg-2); }
+    .extra-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-top: 3.5rem;
+    }
+    .extra-card {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .extra-card:hover { border-color: rgba(0,229,192,0.25); transform: translateY(-4px); }
+    .extra-emoji { font-size: 2.2rem; display: block; margin-bottom: 0.75rem; }
+    .extra-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+    .extra-val {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) { .extra-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px)  { .extra-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ─── CONTATTI ──────────────────────────────────────────────────── */
+    #contact { background: var(--bg); }
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 3.5rem;
+    }
+    .contact-left p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .contact-link:hover { border-color: rgba(255,77,46,0.35); transform: translateX(6px); }
+    .contact-link-icon {
+      width: 40px; height: 40px;
+      background: rgba(255,77,46,0.1);
+      border: 1px solid rgba(255,77,46,0.2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contact-link-info { display: flex; flex-direction: column; }
+    .contact-link-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.15rem;
+    }
+    .contact-link-val {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .contact-right {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2.5rem;
+    }
+    .contact-right h3 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .contact-right h3 em { font-style: italic; color: var(--accent-2); }
+    .contact-right p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .contact-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .badge.hot {
+      background: rgba(255,77,46,0.1);
+      border-color: rgba(255,77,46,0.3);
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      section { padding: 5rem 1.5rem; }
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────────────────── */
+    footer {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .footer-copy span { color: var(--accent); }
+    .footer-right {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    @media (max-width: 480px) {
+      footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
+    }
+
+    /* ─── REVEAL ON SCROLL ──────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── SELECTION ─────────────────────────────────────────────────── */
+    ::selection { background: rgba(255,77,46,0.25); color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo"><span>//</span> Diego</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">Chi sono</a></li>
+      <li><a href="#skills">Competenze</a></li>
+      <li><a href="#contact">Contatti</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-tag">Digital Marketer</div>
+      <h1 class="hero-name">
+        <!-- ↓ SOSTITUISCI con il tuo nome e cognome -->
+        Diego<br><em>Dalla Costa</em>
+      </h1>
+      <p class="hero-intro">
+        Nato come <strong>SEO</strong>, cresciuto come marketer. Aiuto le aziende a farsi trovare, capire e ricordare — <strong>con i numeri a supporto</strong>, non per decorazione.
+      </p>
+      <div class="hero-ctas">
+        <!-- ↓ SOSTITUISCI href con la tua email -->
+        <a href="mailto:tua@email.com" class="btn btn-primary">Parliamoci ↗</a>
+        <a href="#about" class="btn btn-ghost">Scopri di più</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="avatar-wrap">
+        <div class="avatar-bg"></div>
+        <div class="avatar-inner">
+<div class="hero-right">
+      <div class="avatar-wrap">
+        <div class="avatar-bg"></div>
+        <div class="avatar-inner">
+          <img src="diego.jpg" 
+               alt="Diego Dalla Costa" 
+               class="avatar-img">
+        </div>
+        <div class="avatar-dot"></div>
+      </div>
+    </div>
+        </div>
+        <div class="avatar-dot"></div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CHI SONO -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="section-label">01 — About</div>
+      <h2 class="section-title">Un po' <em>precisino</em>,<br>molto curioso.</h2>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            <strong>Ahoj, lettore!</strong> Sono un ex adolescente, ex giornalista pubblicista e lettore curioso. Sono nato come SEO più di dieci anni fa, ma la poliedricità è uno dei miei punti di forza — la pazienza è un altro, ma ti prego di non abusarne mai.
+          </p>
+          <p>
+            Se nomi come <span class="highlight">Google Ads</span>, <span class="highlight">Google Analytics</span>, <span class="highlight">Google Tag Manager</span> o <span class="highlight">Google Looker Studio</span> ti fanno sudare freddo, sappi che posso aiutarti.
+          </p>
+          <p>
+            Il perfezionismo è un mio difetto acclarato; la <strong>"r" arrotata</strong>, tipica del Parmense, segue a ruota. Credo nel marketing a risposta diretta, nel motto <em>"chi non misura non migliora"</em> e nel potere terapeutico dei profiteroles.
+          </p>
+          <p>
+            Quando non lavoro: leggo, corro con una tipa dalla scorza dura (Onda, una meticcia adottata) e stresso mia moglie con piani creativi per guadagnare il nostro primo milione di euro.
+          </p>
+        </div>
+        <div class="about-aside">
+          <div class="aside-card reveal reveal-delay-1">
+            <div class="aside-card-icon">💡</div>
+            <div class="aside-card-title">Cosa faccio al lavoro</div>
+            <div class="aside-card-body">SEO — campagne pay-per-click — copywriting per vendere.</div>
+          </div>
+          <div class="aside-card reveal reveal-delay-2">
+            <div class="aside-card-icon">📐</div>
+            <div class="aside-card-title">Come lavoro</div>
+            <div class="aside-card-body">Dati prima, intuito dopo. Ogni strategia parte dalla misura, non dall'opinione.</div>
+          </div>
+          <div class="aside-card reveal reveal-delay-3">
+            <div class="aside-card-icon">📚</div>
+            <div class="aside-card-title">Background</div>
+            <div class="aside-card-body">Ex giornalista pubblicista. +10 anni di digital marketing. Lettore compulsivo.</div>
+          </div>
+          <div class="aside-card reveal reveal-delay-4">
+            <div class="aside-card-icon">🐾</div>
+            <div class="aside-card-title">Fuori orario</div>
+            <div class="aside-card-body">Running con Onda, piani improbabili per il primo milione, profiteroles.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- COMPETENZE -->
+  <section id="skills">
+    <div class="section-inner">
+      <div class="section-label reveal">02 — Competenze</div>
+      <h2 class="section-title reveal">Cosa so fare<br><em>davvero</em> bene.</h2>
+      <p class="section-sub reveal">Tre aree. Zero fronzoli. Solo risultati misurabili.</p>
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <div class="skill-icon">🔍</div>
+          <div class="skill-name">SEO</div>
+          <div class="skill-desc">Posizionamento organico su Google che dura nel tempo. Audit tecnici, keyword research, content strategy e link building.</div>
+          <div class="skill-tools">
+            <span class="skill-tag">Search Console</span>
+            <span class="skill-tag">Semrush</span>
+            <span class="skill-tag">Screaming Frog</span>
+            <span class="skill-tag">GA4</span>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-icon">🎯</div>
+          <div class="skill-name">Pay-Per-Click</div>
+          <div class="skill-desc">Campagne Google Ads che convertono davvero. Setup, ottimizzazione, tracking e reporting. Il budget è sacro — non si spreca.</div>
+          <div class="skill-tools">
+            <span class="skill-tag">Google Ads</span>
+            <span class="skill-tag">GTM</span>
+            <span class="skill-tag">Looker Studio</span>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-icon">✍️</div>
+          <div class="skill-name">Copywriting</div>
+          <div class="skill-desc">Scrivere per vendere, non per impressionare. Testi che parlano al lettore giusto, al momento giusto, con l'offerta giusta.</div>
+          <div class="skill-tools">
+            <span class="skill-tag">Direct response</span>
+            <span class="skill-tag">Landing page</span>
+            <span class="skill-tag">Email</span>
+          </div>
+        </div>
+        <div class="skill-card reveal">
+          <div class="skill-icon">📊</div>
+          <div class="skill-name">Analytics & Data</div>
+          <div class="skill-desc">Google Analytics 4, Tag Manager, Looker Studio. Trasformo dati grezzi in decisioni. "Chi non misura non migliora" — parola mia.</div>
+          <div class="skill-tools">
+            <span class="skill-tag">GA4</span>
+            <span class="skill-tag">GTM</span>
+            <span class="skill-tag">Looker Studio</span>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-icon">🗺️</div>
+          <div class="skill-name">Strategia Digitale</div>
+          <div class="skill-desc">Visione d'insieme. SEO + Ads + content = ecosistema che funziona in sinergia. Perché i canali isolati rendono la metà.</div>
+          <div class="skill-tools">
+            <span class="skill-tag">Audit</span>
+            <span class="skill-tag">Roadmap</span>
+            <span class="skill-tag">Reporting</span>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-icon">🛠️</div>
+          <div class="skill-name">Tool & Automazioni</div>
+          <div class="skill-desc">Parecchi anni di esperienza con gli strumenti di casa Google e non solo. L'obiettivo è lavorare meglio, non di più.</div>
+          <div class="skill-tools">
+            <span class="skill-tag">Google Suite</span>
+            <span class="skill-tag">WordPress</span>
+            <span class="skill-tag">Zapier</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- QUOTE -->
+  <section id="quote">
+    <div class="quote-wrap reveal">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">Tra vent'anni sarai più dispiaciuto per le cose che non hai fatto che per quelle che hai fatto. Quindi sciogli gli ormeggi, naviga lontano dal porto sicuro. Cattura i venti dell'opportunità nelle tue vele. Esplora. Sogna. Scopri.</p>
+      <p class="quote-author">— <span>Mark Twain</span> (probabilmente)</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FUN FACTS -->
+  <section id="extra">
+    <div class="section-inner">
+      <div class="section-label reveal">03 — Fun facts</div>
+      <h2 class="section-title reveal">Numeri che<br><em>contano</em>.</h2>
+      <div class="extra-grid">
+        <div class="extra-card reveal">
+          <span class="extra-emoji">📅</span>
+          <div class="extra-label">Anni nel settore</div>
+          <div class="extra-val">10+ (e si vede)</div>
+        </div>
+        <div class="extra-card reveal reveal-delay-1">
+          <span class="extra-emoji">🔠</span>
+          <div class="extra-label">Prima occupazione</div>
+          <div class="extra-val">Giornalista pubblicista</div>
+        </div>
+        <div class="extra-card reveal reveal-delay-2">
+          <span class="extra-emoji">🐕</span>
+          <div class="extra-label">Running partner</div>
+          <div class="extra-val">Onda, meticcia DOC</div>
+        </div>
+        <div class="extra-card reveal reveal-delay-3">
+          <span class="extra-emoji">🍮</span>
+          <div class="extra-label">Terapia preferita</div>
+          <div class="extra-val">Profiteroles s.p.a.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTATTI -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="section-label reveal">04 — Contatti</div>
+      <h2 class="section-title reveal">Parliamoci <em>sul serio</em>.</h2>
+      <div class="contact-wrap">
+        <div class="contact-left reveal">
+          <p>Hai un progetto, una domanda o semplicemente vuoi sapere se i profiteroles sono una strategia di marketing valida? Sono qui. Non mordere — almeno non subito.</p>
+          <div class="contact-links">
+            <!-- ↓ SOSTITUISCI href con la tua email -->
+            <a href="mailto:tua@email.com" class="contact-link">
+              <div class="contact-link-icon">✉️</div>
+              <div class="contact-link-info">
+                <span class="contact-link-label">Email</span>
+                <!-- ↓ SOSTITUISCI con la tua email -->
+                <span class="contact-link-val">tua@email.com</span>
+              </div>
+            </a>
+            <!-- ↓ SOSTITUISCI href con il tuo profilo LinkedIn -->
+            <a href="https://linkedin.com/in/diegodallacosta" target="_blank" rel="noopener" class="contact-link">
+              <div class="contact-link-icon">💼</div>
+              <div class="contact-link-info">
+                <span class="contact-link-label">LinkedIn</span>
+                <!-- ↓ SOSTITUISCI con il tuo handle -->
+                <span class="contact-link-val">linkedin.com/in/diegodallacosta</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="contact-right reveal reveal-delay-2">
+          <h3>Pronto a <em>lavorare</em> insieme?</h3>
+          <p>Che si tratti di una consulenza SEO, una campagna da lanciare o un testo da riscrivere — partiamo dai dati e arriviamo ai risultati.</p>
+          <div class="contact-badges">
+            <span class="badge hot">SEO Audit</span>
+            <span class="badge hot">Google Ads</span>
+            <span class="badge hot">Copywriting</span>
+            <span class="badge">Consulenza</span>
+            <span class="badge">Formazione</span>
+            <span class="badge">Looker Studio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-copy">
+      <!-- ↓ SOSTITUISCI con il tuo nome -->
+      © <span id="year"></span> <span>Diego Dalla Costa</span>. Fatto con pazienza e perfezionismo ;-)
+    </p>
+    <p class="footer-right">Reggio Emilia, Italia 🇮🇹</p>
+  </footer>
+
+  <script>
+    // Anno footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    function animCursor() {
+      rx += (mx - rx) * 0.18;
+      ry += (my - ry) * 0.18;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+      ring.style.left   = rx + 'px';
+      ring.style.top    = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+
+    document.querySelectorAll('a, button, .skill-card, .aside-card, .extra-card').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+
+    // Mobile nav
+    const burger    = document.getElementById('burger');
+    const navLinks  = document.getElementById('navLinks');
+    burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
