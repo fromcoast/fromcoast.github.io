@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Gestionale Stabilimenti Balneari: Software per Spiagge e Lidi</title>
+  <meta
+    name="description"
+    content="Software gestionale per stabilimenti balneari, lidi e beach club. Gestisci prenotazioni, ombrelloni, pagamenti e clienti da un'unica piattaforma."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --secondary: #0f172a;
+      --light: #f8fafc;
+      --text: #334155;
+      --border: #e2e8f0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      color: var(--text);
+      background: white;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .bg-light {
+      background: #f8fafc;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--secondary);
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(2.7rem, 5vw, 4.6rem);
+      font-weight: 800;
+      color: white;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 24px;
+      font-weight: 800;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    p {
+      margin-bottom: 18px;
+      font-size: 1.05rem;
+    }
+
+    .lead {
+      font-size: 1.2rem;
+      max-width: 850px;
+      margin: 0 auto 50px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+    }
+
+    .logo {
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .nav {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav a {
+      color: rgba(255,255,255,.85);
+      font-weight: 500;
+      transition: .2s;
+    }
+
+    .nav a:hover {
+      color: white;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0;
+      background:
+        linear-gradient(rgba(15,23,42,.75), rgba(15,23,42,.78)),
+        url('https://images.unsplash.com/photo-1493558103817-58b2924bce98?q=80&w=1800&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .hero p {
+      color: rgba(255,255,255,.92);
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .hero-desc {
+      margin-bottom: 40px;
+      font-size: 1.08rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 34px;
+    }
+
+    .badge {
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.15);
+      color: white;
+      font-size: .95rem;
+      backdrop-filter: blur(5px);
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 34px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: .25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #14b8a6, #0f766e);
+      color: white;
+      box-shadow: 0 12px 30px rgba(20,184,166,.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--secondary);
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 28px;
+      padding: 18px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+
+    .hero-card img {
+      border-radius: 20px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 70px;
+      align-items: center;
+    }
+
+    .feature-list,
+    .check-list {
+      list-style: none;
+      display: grid;
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .feature-list li,
+    .check-list li {
+      position: relative;
+      padding-left: 34px;
+      font-size: 1.05rem;
+    }
+
+    .feature-list li::before,
+    .check-list li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .image-box {
+      overflow: hidden;
+      border-radius: 28px;
+      box-shadow: 0 20px 60px rgba(15,23,42,.12);
+    }
+
+    .grid-3,
+    .grid-2,
+    .stats-grid,
+    .faq-grid {
+      display: grid;
+      gap: 30px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 60px;
+    }
+
+    .faq-grid {
+      grid-template-columns: repeat(2, 1fr);
+      margin-top: 50px;
+    }
+
+    .card,
+    .feature-box,
+    .faq-item,
+    .step-card,
+    .stat-card {
+      background: white;
+      border-radius: 24px;
+      padding: 34px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(15,23,42,.05);
+      transition: .25s ease;
+    }
+
+    .card:hover,
+    .feature-box:hover,
+    .faq-item:hover,
+    .step-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(15,23,42,.08);
+    }
+
+    .icon {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    .steps {
+      margin-top: 60px;
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(20,184,166,.12);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 22px;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: rgba(255,255,255,.92);
+      padding: 50px;
+      border-radius: 30px;
+    }
+
+    .highlight-box h2,
+    .highlight-box h3 {
+      color: white;
+    }
+
+    .highlight-box ul {
+      list-style: none;
+      margin-top: 30px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .stat-card {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .final-cta {
+      background: linear-gradient(135deg, #0f766e, #134e4a);
+      color: white;
+      padding: 100px 0;
+    }
+
+    .final-cta h2,
+    .final-cta p {
+      color: white;
+    }
+
+    .final-cta p {
+      max-width: 850px;
+      margin: 0 auto 40px;
+    }
+
+    .site-footer {
+      background: #0f172a;
+      color: rgba(255,255,255,.7);
+      padding: 30px 0;
+      text-align: center;
+      font-size: .95rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .split-layout,
+      .grid-2,
+      .grid-3,
+      .stats-grid,
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 90px 0;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .section {
+        padding: 70px 0;
+      }
+
+      .highlight-box {
+        padding: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">BeachGestPro</div>
+
+      <nav class="nav">
+        <a href="#software">Software</a>
+        <a href="#funzionalita">Funzionalità</a>
+        <a href="#vantaggi">Vantaggi</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="container hero-grid">
+
+        <div>
+          <div class="hero-badges">
+            <span class="badge">Prenotazioni online 24/7</span>
+            <span class="badge">Riduci i no-show</span>
+            <span class="badge">Gestione ombrelloni smart</span>
+          </div>
+
+          <h1>Gestionale stabilimenti balneari per automatizzare prenotazioni, ombrelloni e incassi</h1>
+
+          <p class="hero-subtitle">
+            Il software completo per spiagge, lidi e beach club che semplifica il lavoro quotidiano e aumenta la redditività della stagione.
+          </p>
+
+          <p class="hero-desc">
+            Gestisci prenotazioni online, clienti, disponibilità, pagamenti e postazioni da un'unica dashboard intuitiva.
+            Riduci errori, velocizza il lavoro dello staff e migliora l’esperienza dei tuoi ospiti.
+          </p>
+
+          <a href="#contatti" class="btn-primary">Richiedi una demo</a>
+        </div>
+
+        <div class="hero-card">
+          <img
+            src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1400&auto=format&fit=crop"
+            alt="Gestionale per stabilimenti balneari"
+          >
+        </div>
+      </div>
+    </section>
+
+
+    <section id="software" class="section">
+      <div class="container split-layout">
+
+        <div>
+          <h2>Cos’è un gestionale per stabilimenti balneari</h2>
+
+          <p>
+            Un gestionale per spiagge è una piattaforma progettata per digitalizzare e automatizzare tutte le attività operative di stabilimenti balneari, lidi e beach club.
+          </p>
+
+          <p>
+            Non si tratta soltanto di un sistema di prenotazione ombrelloni, ma di un software completo che centralizza ogni attività: prenotazioni, pagamenti, gestione clienti, disponibilità e organizzazione della spiaggia.
+          </p>
+
+          <ul class="feature-list">
+            <li>Mappa interattiva della spiaggia in tempo reale</li>
+            <li>Prenotazioni online e gestione reception</li>
+            <li>Assegnazione automatica ombrelloni</li>
+            <li>Pagamenti digitali integrati</li>
+            <li>CRM clienti e storico prenotazioni</li>
+            <li>Gestione abbonamenti stagionali</li>
+            <li>Statistiche occupazione e ricavi</li>
+          </ul>
+        </div>
+
+        <div class="image-box">
+          <img
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1400&auto=format&fit=crop"
+            alt="Vista aerea spiaggia attrezzata"
+          >
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section bg-light">
+      <div class="container">
+
+        <div class="text-center">
+          <h2>I problemi più comuni nella gestione di una spiaggia</h2>
+          <p class="lead">
+            Senza un software gestionale, il rischio di errori, perdita di tempo e mancati guadagni aumenta ogni giorno.
+          </p>
+        </div>
+
+        <div class="grid-3">
+
+          <article class="card">
+            <div class="icon">❌</div>
+            <h3>Doppie prenotazioni</h3>
+            <p>
+              Prenotazioni gestite tra WhatsApp, telefono e reception aumentano il rischio di assegnare lo stesso ombrellone a più clienti.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">⏱️</div>
+            <h3>Tempo perso</h3>
+            <p>
+              Fogli Excel, appunti manuali e continui aggiornamenti rallentano il lavoro dello staff e aumentano lo stress operativo.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">📉</div>
+            <h3>Mancanza di controllo</h3>
+            <p>
+              Senza dati centralizzati è difficile monitorare occupazione, pagamenti, incassi e performance della stagione.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section">
+      <div class="container">
+
+        <div class="text-center">
+          <h2>Come funziona il gestionale</h2>
+          <p class="lead">
+            Un flusso semplice e intuitivo progettato per velocizzare la gestione quotidiana dello stabilimento.
+          </p>
+        </div>
+
+        <div class="grid-3 steps">
+
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Configura la spiaggia</h3>
+            <p>
+              Inserisci ombrelloni, cabine, lettini e aree VIP direttamente nella mappa interattiva.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Ricevi prenotazioni online</h3>
+            <p>
+              I clienti prenotano dal sito web scegliendo posizione, data e servizi aggiuntivi.
+            </p>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Controlla tutto in tempo reale</h3>
+            <p>
+              Monitora disponibilità, pagamenti, occupazione e performance direttamente dalla dashboard.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <section id="funzionalita" class="section bg-light">
+      <div class="container">
+
+        <div class="text-center">
+          <h2>Funzionalità principali</h2>
+          <p class="lead">
+            Tutti gli strumenti necessari per gestire spiagge, lidi e beach club in modo moderno ed efficiente.
+          </p>
+        </div>
+
+        <div class="grid-2">
+
+          <div class="feature-box">
+            <h3>🏖️ Mappa interattiva</h3>
+            <p>
+              Visualizza ombrelloni, lettini e cabine in tempo reale con gestione immediata delle disponibilità.
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h3>📅 Prenotazioni online</h3>
+            <p>
+              Permetti ai clienti di prenotare autonomamente dal sito web 24 ore su 24.
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h3>💳 Pagamenti integrati</h3>
+            <p>
+              Incassa online tramite carta, PayPal e sistemi digitali riducendo no-show e mancati pagamenti.
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h3>📊 Report e statistiche</h3>
+            <p>
+              Analizza occupazione, ricavi, aree più richieste e andamento della stagione.
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h3>👥 CRM clienti</h3>
+            <p>
+              Gestisci clienti abituali, preferenze, storico prenotazioni e abbonamenti stagionali.
+            </p>
+          </div>
+
+          <div class="feature-box">
+            <h3>📱 Accesso mobile</h3>
+            <p>
+              Utilizza il software direttamente da smartphone o tablet anche mentre sei in spiaggia.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <section id="vantaggi" class="section">
+      <div class="container split-layout">
+
+        <div>
+          <h2>Perché digitalizzare il tuo stabilimento balneare</h2>
+
+          <ul class="check-list">
+            <li><strong>Riduci errori e doppie prenotazioni</strong></li>
+            <li><strong>Velocizzi il lavoro dello staff</strong></li>
+            <li><strong>Migliori l’esperienza del cliente</strong></li>
+            <li><strong>Aumenti l’occupazione giornaliera</strong></li>
+            <li><strong>Incassi online prima dell’arrivo</strong></li>
+            <li><strong>Gestisci tutto da smartphone e tablet</strong></li>
+            <li><strong>Controlli ricavi e performance in tempo reale</strong></li>
+          </ul>
+        </div>
+
+        <div class="highlight-box">
+          <h2>Ideale per</h2>
+
+          <ul>
+            <li>✔️ Piccoli lidi</li>
+            <li>✔️ Grandi stabilimenti balneari</li>
+            <li>✔️ Beach club</li>
+            <li>✔️ Resort sul mare</li>
+            <li>✔️ Campeggi con area spiaggia</li>
+            <li>✔️ Villaggi turistici</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="container stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <p>Prenotazioni online sempre attive</p>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">-80%</div>
+          <p>Riduzione errori manuali</p>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">+35%</div>
+          <p>Migliore gestione occupazione</p>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">100%</div>
+          <p>Controllo digitale della spiaggia</p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section id="faq" class="section bg-light">
+      <div class="container">
+
+        <div class="text-center">
+          <h2>FAQ</h2>
+          <p class="lead">
+            Domande frequenti sul software gestionale per stabilimenti balneari.
+          </p>
+        </div>
+
+        <div class="faq-grid">
+
+          <div class="faq-item">
+            <h3>Cos’è un gestionale per stabilimenti balneari?</h3>
+            <p>
+              È un software che permette di gestire prenotazioni, clienti, ombrelloni, incassi e disponibilità in modo digitale.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Il software funziona anche da smartphone?</h3>
+            <p>
+              Sì, il gestionale è ottimizzato per smartphone, tablet e desktop.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>È adatto anche a piccoli lidi?</h3>
+            <p>
+              Certamente. Il sistema è scalabile ed è utile sia per piccole spiagge sia per grandi beach club.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>È possibile integrare i pagamenti online?</h3>
+            <p>
+              Sì, il software supporta pagamenti digitali e acconti online.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <section id="contatti" class="final-cta">
+      <div class="container text-center">
+
+        <h2>Trasforma la gestione della tua spiaggia in un sistema semplice, digitale e redditizio</h2>
+
+        <p>
+          Abbandona fogli Excel, prenotazioni manuali e continui errori operativi.
+          Con un gestionale professionale puoi automatizzare il lavoro quotidiano, migliorare il servizio e aumentare il valore di ogni postazione in spiaggia.
+        </p>
+
+        <a href="#" class="btn-secondary">Prenota una demo gratuita</a>
+      </div>
+    </section>
+
+  </main>
+
+
+  <footer class="site-footer">
+    <div class="container">
+      © 2026 BeachGestPro — Gestionale Stabilimenti Balneari
+    </div>
+  </footer>
+
+</body>
+</html>
