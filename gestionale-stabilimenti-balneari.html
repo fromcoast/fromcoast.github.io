@@ -1,777 +1,1699 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestionale Stabilimenti Balneari – Software per Spiagge, Lidi e Ombrelloni</title>
+  <meta name="description" content="Software gestionale completo per stabilimenti balneari, lidi e spiagge attrezzate. Gestione ombrelloni, prenotazioni online, pagamenti digitali e report in tempo reale.">
+  <meta name="robots" content="index, follow">
 
-  <title>Gestionale Stabilimenti Balneari: Software per Spiagge e Lidi</title>
-  <meta
-    name="description"
-    content="Software gestionale per stabilimenti balneari, lidi e beach club. Gestisci prenotazioni, ombrelloni, pagamenti e clienti da un'unica piattaforma."
-  />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Gestionale Stabilimenti Balneari – Software Completo per Spiagge e Lidi">
+  <meta property="og:description" content="Trasforma la gestione della tua spiaggia in un processo semplice, digitale e redditizio. Prenotazioni, ombrelloni, clienti e pagamenti in un unico software.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tuodominio.it/gestionale-stabilimenti-balneari">
+  <meta property="og:locale" content="it_IT">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gestionale Stabilimenti Balneari – Software per Spiagge e Lidi">
+  <meta name="twitter:description" content="Software gestionale completo per stabilimenti balneari. Gestione ombrelloni, prenotazioni online e pagamenti digitali.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    * {
+    /* ============================================
+       CSS RESET & BASE
+       ============================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
-    :root {
-      --primary: #0f766e;
-      --primary-dark: #115e59;
-      --secondary: #0f172a;
-      --light: #f8fafc;
-      --text: #334155;
-      --border: #e2e8f0;
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.7;
-      color: var(--text);
-      background: white;
+      color: #1e293b;
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    img {
-      max-width: 100%;
-      display: block;
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul, ol { list-style: none; }
+
+    /* ============================================
+       CSS VARIABLES
+       ============================================ */
+    :root {
+      --primary: #0c6eb5;
+      --primary-dark: #095a94;
+      --primary-light: #e8f4fd;
+      --accent: #f59e0b;
+      --accent-dark: #d97706;
+      --dark: #0f172a;
+      --gray-900: #1e293b;
+      --gray-700: #334155;
+      --gray-600: #475569;
+      --gray-500: #64748b;
+      --gray-300: #cbd5e1;
+      --gray-100: #f1f5f9;
+      --gray-50: #f8fafc;
+      --white: #ffffff;
+      --success: #10b981;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+      --shadow-xl: 0 16px 48px rgba(0,0,0,0.15);
+      --max-width: 1200px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    a {
-      text-decoration: none;
-    }
-
+    /* ============================================
+       UTILITY
+       ============================================ */
     .container {
-      width: min(1180px, calc(100% - 40px));
-      margin-inline: auto;
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
     }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: var(--transition);
+    }
+
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav__logo {
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav__logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav__link {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      transition: var(--transition);
+    }
+
+    .nav__link:hover {
+      color: var(--primary);
+    }
+
+    .nav__cta {
+      background: var(--primary);
+      color: var(--white);
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .nav__cta:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav__toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .nav__toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gray-700);
+      margin: 6px 0;
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero {
+      padding: 160px 0 100px;
+      background: linear-gradient(165deg, var(--white) 0%, var(--primary-light) 50%, #dbeafe 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(12,110,181,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .hero__inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--gray-300);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero__badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--dark);
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero__subtitle {
+      font-size: 1.125rem;
+      color: var(--gray-600);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 540px;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 32px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn--primary {
+      background: var(--primary);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(12,110,181,0.35);
+    }
+
+    .btn--primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(12,110,181,0.4);
+    }
+
+    .btn--outline {
+      background: var(--white);
+      color: var(--gray-700);
+      border: 2px solid var(--gray-300);
+    }
+
+    .btn--outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .hero__visual {
+      position: relative;
+    }
+
+    .hero__mockup {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      padding: 24px;
+      position: relative;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .mockup__header {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .mockup__dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .mockup__dot--red { background: #ff5f57; }
+    .mockup__dot--yellow { background: #febc2e; }
+    .mockup__dot--green { background: #28c840; }
+
+    .mockup__grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .mockup__umbrella {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .mockup__umbrella--free {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .mockup__umbrella--occupied {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .mockup__umbrella--reserved {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .mockup__stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .mockup__stat {
+      background: var(--gray-50);
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .mockup__stat-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .mockup__stat-label {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      margin-top: 2px;
+    }
+
+    .hero__floating-card {
+      position: absolute;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(0,0,0,0.06);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .hero__floating-card--1 {
+      top: -20px;
+      right: -30px;
+    }
+
+    .hero__floating-card--2 {
+      bottom: -15px;
+      left: -25px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .floating-card__row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .floating-card__icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .floating-card__icon--green { background: #dcfce7; }
+    .floating-card__icon--blue { background: #dbeafe; }
+
+    .floating-card__text {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+
+    .floating-card__sub {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+    }
+
+    /* ============================================
+       SECTION COMMON
+       ============================================ */
     .section {
       padding: 100px 0;
     }
 
-    .bg-light {
-      background: #f8fafc;
+    .section--gray {
+      background: var(--gray-50);
     }
 
-    .text-center {
+    .section__label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .section__label::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .section__title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--dark);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .section__subtitle {
+      font-size: 1.1rem;
+      color: var(--gray-600);
+      max-width: 640px;
+      line-height: 1.8;
+    }
+
+    .section__header {
+      margin-bottom: 64px;
+    }
+
+    .section__header--center {
       text-align: center;
     }
 
-    h1,
-    h2,
-    h3 {
-      color: var(--secondary);
-      line-height: 1.2;
+    .section__header--center .section__subtitle {
+      margin: 0 auto;
     }
 
-    h1 {
-      font-size: clamp(2.7rem, 5vw, 4.6rem);
-      font-weight: 800;
-      color: white;
-      margin-bottom: 28px;
+    /* ============================================
+       PROBLEMS SECTION
+       ============================================ */
+    .problems__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
     }
 
-    h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 24px;
-      font-weight: 800;
-    }
-
-    h3 {
-      font-size: 1.25rem;
-      margin-bottom: 14px;
-      font-weight: 700;
-    }
-
-    p {
-      margin-bottom: 18px;
-      font-size: 1.05rem;
-    }
-
-    .lead {
-      font-size: 1.2rem;
-      max-width: 850px;
-      margin: 0 auto 50px;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(15, 23, 42, 0.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 0;
-    }
-
-    .logo {
-      color: white;
-      font-size: 1.3rem;
-      font-weight: 800;
-    }
-
-    .nav {
-      display: flex;
-      gap: 30px;
-    }
-
-    .nav a {
-      color: rgba(255,255,255,.85);
-      font-weight: 500;
-      transition: .2s;
-    }
-
-    .nav a:hover {
-      color: white;
-    }
-
-    .hero {
+    .problem-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: var(--transition);
       position: relative;
       overflow: hidden;
-      padding: 120px 0;
-      background:
-        linear-gradient(rgba(15,23,42,.75), rgba(15,23,42,.78)),
-        url('https://images.unsplash.com/photo-1493558103817-58b2924bce98?q=80&w=1800&auto=format&fit=crop');
-      background-size: cover;
-      background-position: center;
     }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 70px;
-      align-items: center;
+    .problem-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ef4444, #f97316);
+      opacity: 0;
+      transition: var(--transition);
     }
 
-    .hero p {
-      color: rgba(255,255,255,.92);
+    .problem-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
     }
 
-    .hero-subtitle {
-      font-size: 1.3rem;
-      margin-bottom: 24px;
-      font-weight: 500;
+    .problem-card:hover::before {
+      opacity: 1;
     }
 
-    .hero-desc {
-      margin-bottom: 40px;
-      font-size: 1.08rem;
-    }
-
-    .hero-badges {
+    .problem-card__icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #fef2f2;
       display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 34px;
-    }
-
-    .badge {
-      padding: 10px 18px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.15);
-      color: white;
-      font-size: .95rem;
-      backdrop-filter: blur(5px);
-    }
-
-    .btn-primary,
-    .btn-secondary {
-      display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 16px 34px;
-      border-radius: 999px;
-      font-weight: 700;
-      transition: .25s ease;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #14b8a6, #0f766e);
-      color: white;
-      box-shadow: 0 12px 30px rgba(20,184,166,.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: var(--secondary);
-    }
-
-    .hero-card {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 28px;
-      padding: 18px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 20px 60px rgba(0,0,0,.25);
-    }
-
-    .hero-card img {
-      border-radius: 20px;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .split-layout {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 70px;
-      align-items: center;
-    }
-
-    .feature-list,
-    .check-list {
-      list-style: none;
-      display: grid;
-      gap: 16px;
-      margin-top: 30px;
-    }
-
-    .feature-list li,
-    .check-list li {
-      position: relative;
-      padding-left: 34px;
-      font-size: 1.05rem;
-    }
-
-    .feature-list li::before,
-    .check-list li::before {
-      content: '✔';
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .image-box {
-      overflow: hidden;
-      border-radius: 28px;
-      box-shadow: 0 20px 60px rgba(15,23,42,.12);
-    }
-
-    .grid-3,
-    .grid-2,
-    .stats-grid,
-    .faq-grid {
-      display: grid;
-      gap: 30px;
-    }
-
-    .grid-3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .grid-2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .stats-grid {
-      grid-template-columns: repeat(4, 1fr);
-      margin-top: 60px;
-    }
-
-    .faq-grid {
-      grid-template-columns: repeat(2, 1fr);
-      margin-top: 50px;
-    }
-
-    .card,
-    .feature-box,
-    .faq-item,
-    .step-card,
-    .stat-card {
-      background: white;
-      border-radius: 24px;
-      padding: 34px;
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 30px rgba(15,23,42,.05);
-      transition: .25s ease;
-    }
-
-    .card:hover,
-    .feature-box:hover,
-    .faq-item:hover,
-    .step-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(15,23,42,.08);
-    }
-
-    .icon {
-      font-size: 2.2rem;
+      font-size: 1.3rem;
       margin-bottom: 20px;
     }
 
-    .steps {
-      margin-top: 60px;
+    .problem-card__title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
     }
 
-    .step-number {
-      width: 60px;
-      height: 60px;
+    .problem-card__text {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    /* ============================================
+       FEATURES SECTION
+       ============================================ */
+    .features__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .feature-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+      border-color: transparent;
+    }
+
+    .feature-card__icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+    }
+
+    .feature-card__title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .feature-card__text {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    .feature-card__list {
+      margin-top: 16px;
+    }
+
+    .feature-card__list li {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      padding: 4px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .feature-card__list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    /* ============================================
+       BENEFITS SECTION
+       ============================================ */
+    .benefits__wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .benefits__visual {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .benefits__visual::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,0.05);
       border-radius: 50%;
-      background: rgba(20,184,166,.12);
-      color: var(--primary);
+    }
+
+    .benefit-stat {
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .benefit-stat__value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .benefit-stat__label {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    .benefit-stat__bar {
+      height: 6px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .benefit-stat__bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    .benefits__list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .benefit-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .benefit-item__icon {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      border-radius: 12px;
+      background: var(--primary-light);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.2rem;
-      font-weight: 800;
-      margin-bottom: 22px;
     }
 
-    .highlight-box {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      color: rgba(255,255,255,.92);
-      padding: 50px;
-      border-radius: 30px;
+    .benefit-item__title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
     }
 
-    .highlight-box h2,
-    .highlight-box h3 {
-      color: white;
+    .benefit-item__text {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.7;
     }
 
-    .highlight-box ul {
-      list-style: none;
-      margin-top: 30px;
+    /* ============================================
+       WHY US SECTION
+       ============================================ */
+    .why__grid {
       display: grid;
-      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
     }
 
-    .stat-card {
-      text-align: center;
+    .why-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px;
+      border: 1px solid var(--gray-100);
+      transition: var(--transition);
     }
 
-    .stat-number {
-      font-size: 2.6rem;
-      font-weight: 800;
+    .why-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    .why-card__check {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .why-card__title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .why-card__text {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    /* ============================================
+       FAQ SECTION
+       ============================================ */
+    .faq__list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border: 1px solid var(--gray-100);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .faq-item:hover {
+      border-color: var(--gray-300);
+    }
+
+    .faq-item__question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark);
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .faq-item__question:hover {
       color: var(--primary);
-      line-height: 1;
-      margin-bottom: 12px;
     }
 
-    .final-cta {
-      background: linear-gradient(135deg, #0f766e, #134e4a);
-      color: white;
+    .faq-item__icon {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 50%;
+      background: var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--gray-500);
+      transition: var(--transition);
+    }
+
+    .faq-item.active .faq-item__icon {
+      background: var(--primary);
+      color: var(--white);
+      transform: rotate(45deg);
+    }
+
+    .faq-item__answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .faq-item.active .faq-item__answer {
+      max-height: 300px;
+    }
+
+    .faq-item__answer-inner {
+      padding: 0 28px 24px;
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.8;
+    }
+
+    /* ============================================
+       CTA SECTION
+       ============================================ */
+    .cta {
       padding: 100px 0;
-    }
-
-    .final-cta h2,
-    .final-cta p {
-      color: white;
-    }
-
-    .final-cta p {
-      max-width: 850px;
-      margin: 0 auto 40px;
-    }
-
-    .site-footer {
-      background: #0f172a;
-      color: rgba(255,255,255,.7);
-      padding: 30px 0;
+      background: linear-gradient(135deg, var(--dark) 0%, #1e3a5f 100%);
+      color: var(--white);
       text-align: center;
-      font-size: .95rem;
+      position: relative;
+      overflow: hidden;
     }
 
-    @media (max-width: 980px) {
-      .hero-grid,
-      .split-layout,
-      .grid-2,
-      .grid-3,
-      .stats-grid,
-      .faq-grid {
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .cta__inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta__title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta__subtitle {
+      font-size: 1.1rem;
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+
+    .cta__btn {
+      background: var(--accent);
+      color: var(--dark);
+      padding: 18px 40px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .cta__btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(245,158,11,0.3);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      background: var(--dark);
+      color: var(--gray-500);
+      padding: 48px 0 32px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer__logo {
+      font-weight: 700;
+      color: var(--white);
+      font-size: 1rem;
+    }
+
+    .footer__text {
+      font-size: 0.85rem;
+    }
+
+    .footer__links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer__link {
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    .footer__link:hover {
+      color: var(--white);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 1024px) {
+      .hero__inner {
         grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .hero__visual {
+        max-width: 560px;
+        margin: 0 auto;
+      }
+
+      .features__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .benefits__wrapper {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .benefits__visual {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav__links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        flex-direction: column;
+        padding: 24px;
+        gap: 20px;
+        border-bottom: 1px solid var(--gray-100);
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav__links.open {
+        display: flex;
+      }
+
+      .nav__toggle {
+        display: block;
       }
 
       .hero {
-        padding: 90px 0;
+        padding: 120px 0 60px;
       }
 
-      .nav {
+      .hero__floating-card {
         display: none;
       }
 
       .section {
-        padding: 70px 0;
+        padding: 64px 0;
       }
 
-      .highlight-box {
-        padding: 36px;
+      .features__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .problems__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .why__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mockup__grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+
+      .hero__actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .footer__inner {
+        flex-direction: column;
+        text-align: center;
       }
     }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .hero h1 {
+        font-size: 1.75rem;
+      }
+
+      .section__title {
+        font-size: 1.5rem;
+      }
+
+      .mockup__stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .mockup__stat {
+        padding: 8px;
+      }
+
+      .mockup__stat-value {
+        font-size: 1rem;
+      }
+    }
+
+    /* ============================================
+       ANIMATIONS (reduced motion friendly)
+       ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Gestionale Stabilimenti Balneari",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Software gestionale completo per stabilimenti balneari, lidi e spiagge attrezzate. Gestione ombrelloni, prenotazioni online, pagamenti digitali e report in tempo reale.",
+    "offers": {
+      "@type": "Offer",
+      "category": "Gestionali per spiagge"
+    }
+  }
+  </script>
 </head>
+
 <body>
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="logo">BeachGestPro</div>
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" role="navigation" aria-label="Navigazione principale">
+    <div class="container nav__inner">
+      <a href="#" class="nav__logo" aria-label="Home">
+        <span class="nav__logo-icon">🏖️</span>
+        BeachManager
+      </a>
+      <div class="nav__links" id="navLinks">
+        <a href="#problemi" class="nav__link">Problemi</a>
+        <a href="#funzionalita" class="nav__link">Funzionalità</a>
+        <a href="#vantaggi" class="nav__link">Vantaggi</a>
+        <a href="#faq" class="nav__link">FAQ</a>
+        <a href="#contatti" class="nav__cta">Provalo ora</a>
+      </div>
+      <button class="nav__toggle" id="navToggle" aria-label="Apri menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
 
-      <nav class="nav">
-        <a href="#software">Software</a>
-        <a href="#funzionalita">Funzionalità</a>
-        <a href="#vantaggi">Vantaggi</a>
-        <a href="#faq">FAQ</a>
-      </nav>
+  <!-- ========== HERO ========== -->
+  <header class="hero" id="hero">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <div class="hero__badge">
+          <span class="hero__badge-dot"></span>
+          Software per stabilimenti balneari
+        </div>
+        <h1>Gestionale Stabilimenti Balneari: il <span>software completo</span> per spiagge, lidi e ombrelloni</h1>
+        <p class="hero__subtitle">Trasforma la gestione della tua spiaggia in un processo semplice, digitale e redditizio. Prenotazioni, ombrelloni, clienti e pagamenti in un'unica piattaforma.</p>
+        <div class="hero__actions">
+          <a href="#contatti" class="btn btn--primary">Richiedi una demo gratuita →</a>
+          <a href="#funzionalita" class="btn btn--outline">Scopri le funzionalità</a>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__mockup">
+          <div class="mockup__header">
+            <span class="mockup__dot mockup__dot--red"></span>
+            <span class="mockup__dot mockup__dot--yellow"></span>
+            <span class="mockup__dot mockup__dot--green"></span>
+          </div>
+          <div class="mockup__grid" aria-label="Mappa spiaggia">
+            <div class="mockup__umbrella mockup__umbrella--occupied">A1</div>
+            <div class="mockup__umbrella mockup__umbrella--occupied">A2</div>
+            <div class="mockup__umbrella mockup__umbrella--free">A3</div>
+            <div class="mockup__umbrella mockup__umbrella--reserved">A4</div>
+            <div class="mockup__umbrella mockup__umbrella--free">A5</div>
+            <div class="mockup__umbrella mockup__umbrella--occupied">A6</div>
+            <div class="mockup__umbrella mockup__umbrella--free">A7</div>
+            <div class="mockup__umbrella mockup__umbrella--occupied">A8</div>
+            <div class="mockup__umbrella mockup__umbrella--reserved">B1</div>
+            <div class="mockup__umbrella mockup__umbrella--free">B2</div>
+            <div class="mockup__umbrella mockup__umbrella--free">B3</div>
+            <div class="mockup__umbrella mockup__umbrella--occupied">B4</div>
+            <div class="mockup__umbrella mockup__umbrella--occupied">B5</div>
+            <div class="mockup__umbrella mockup__umbrella--free">B6</div>
+            <div class="mockup__umbrella mockup__umbrella--reserved">B7</div>
+            <div class="mockup__umbrella mockup__umbrella--occupied">B8</div>
+            <div class="mockup__umbrella mockup__umbrella--free">C1</div>
+            <div class="mockup__umbrella mockup__umbrella--occupied">C2</div>
+            <div class="mockup__umbrella mockup__umbrella--free">C3</div>
+            <div class="mockup__umbrella mockup__umbrella--occupied">C4</div>
+            <div class="mockup__umbrella mockup__umbrella--reserved">C5</div>
+            <div class="mockup__umbrella mockup__umbrella--free">C6</div>
+            <div class="mockup__umbrella mockup__umbrella--free">C7</div>
+            <div class="mockup__umbrella mockup__umbrella--occupied">C8</div>
+          </div>
+          <div class="mockup__stats">
+            <div class="mockup__stat">
+              <div class="mockup__stat-value">78%</div>
+              <div class="mockup__stat-label">Occupazione</div>
+            </div>
+            <div class="mockup__stat">
+              <div class="mockup__stat-value">€3.2k</div>
+              <div class="mockup__stat-label">Revenue oggi</div>
+            </div>
+            <div class="mockup__stat">
+              <div class="mockup__stat-value">14</div>
+              <div class="mockup__stat-label">Prenotazioni</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero__floating-card hero__floating-card--1">
+          <div class="floating-card__row">
+            <div class="floating-card__icon floating-card__icon--green">✓</div>
+            <div>
+              <div class="floating-card__text">Prenotazione confermata</div>
+              <div class="floating-card__sub">Ombrellone B2 – 14 lug</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero__floating-card hero__floating-card--2">
+          <div class="floating-card__row">
+            <div class="floating-card__icon floating-card__icon--blue">💳</div>
+            <div>
+              <div class="floating-card__text">Pagamento ricevuto</div>
+              <div class="floating-card__sub">€120,00 – Carta •••• 4242</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
-  <main>
-
-    <section class="hero">
-      <div class="container hero-grid">
-
-        <div>
-          <div class="hero-badges">
-            <span class="badge">Prenotazioni online 24/7</span>
-            <span class="badge">Riduci i no-show</span>
-            <span class="badge">Gestione ombrelloni smart</span>
-          </div>
-
-          <h1>Gestionale stabilimenti balneari per automatizzare prenotazioni, ombrelloni e incassi</h1>
-
-          <p class="hero-subtitle">
-            Il software completo per spiagge, lidi e beach club che semplifica il lavoro quotidiano e aumenta la redditività della stagione.
-          </p>
-
-          <p class="hero-desc">
-            Gestisci prenotazioni online, clienti, disponibilità, pagamenti e postazioni da un'unica dashboard intuitiva.
-            Riduci errori, velocizza il lavoro dello staff e migliora l’esperienza dei tuoi ospiti.
-          </p>
-
-          <a href="#contatti" class="btn-primary">Richiedi una demo</a>
-        </div>
-
-        <div class="hero-card">
-          <img
-            src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1400&auto=format&fit=crop"
-            alt="Gestionale per stabilimenti balneari"
-          >
-        </div>
-      </div>
-    </section>
-
-
-    <section id="software" class="section">
-      <div class="container split-layout">
-
-        <div>
-          <h2>Cos’è un gestionale per stabilimenti balneari</h2>
-
-          <p>
-            Un gestionale per spiagge è una piattaforma progettata per digitalizzare e automatizzare tutte le attività operative di stabilimenti balneari, lidi e beach club.
-          </p>
-
-          <p>
-            Non si tratta soltanto di un sistema di prenotazione ombrelloni, ma di un software completo che centralizza ogni attività: prenotazioni, pagamenti, gestione clienti, disponibilità e organizzazione della spiaggia.
-          </p>
-
-          <ul class="feature-list">
-            <li>Mappa interattiva della spiaggia in tempo reale</li>
-            <li>Prenotazioni online e gestione reception</li>
-            <li>Assegnazione automatica ombrelloni</li>
-            <li>Pagamenti digitali integrati</li>
-            <li>CRM clienti e storico prenotazioni</li>
-            <li>Gestione abbonamenti stagionali</li>
-            <li>Statistiche occupazione e ricavi</li>
-          </ul>
-        </div>
-
-        <div class="image-box">
-          <img
-            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1400&auto=format&fit=crop"
-            alt="Vista aerea spiaggia attrezzata"
-          >
-        </div>
-      </div>
-    </section>
-
-
-    <section class="section bg-light">
-      <div class="container">
-
-        <div class="text-center">
-          <h2>I problemi più comuni nella gestione di una spiaggia</h2>
-          <p class="lead">
-            Senza un software gestionale, il rischio di errori, perdita di tempo e mancati guadagni aumenta ogni giorno.
-          </p>
-        </div>
-
-        <div class="grid-3">
-
-          <article class="card">
-            <div class="icon">❌</div>
-            <h3>Doppie prenotazioni</h3>
-            <p>
-              Prenotazioni gestite tra WhatsApp, telefono e reception aumentano il rischio di assegnare lo stesso ombrellone a più clienti.
-            </p>
-          </article>
-
-          <article class="card">
-            <div class="icon">⏱️</div>
-            <h3>Tempo perso</h3>
-            <p>
-              Fogli Excel, appunti manuali e continui aggiornamenti rallentano il lavoro dello staff e aumentano lo stress operativo.
-            </p>
-          </article>
-
-          <article class="card">
-            <div class="icon">📉</div>
-            <h3>Mancanza di controllo</h3>
-            <p>
-              Senza dati centralizzati è difficile monitorare occupazione, pagamenti, incassi e performance della stagione.
-            </p>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-
-    <section class="section">
-      <div class="container">
-
-        <div class="text-center">
-          <h2>Come funziona il gestionale</h2>
-          <p class="lead">
-            Un flusso semplice e intuitivo progettato per velocizzare la gestione quotidiana dello stabilimento.
-          </p>
-        </div>
-
-        <div class="grid-3 steps">
-
-          <div class="step-card">
-            <div class="step-number">1</div>
-            <h3>Configura la spiaggia</h3>
-            <p>
-              Inserisci ombrelloni, cabine, lettini e aree VIP direttamente nella mappa interattiva.
-            </p>
-          </div>
-
-          <div class="step-card">
-            <div class="step-number">2</div>
-            <h3>Ricevi prenotazioni online</h3>
-            <p>
-              I clienti prenotano dal sito web scegliendo posizione, data e servizi aggiuntivi.
-            </p>
-          </div>
-
-          <div class="step-card">
-            <div class="step-number">3</div>
-            <h3>Controlla tutto in tempo reale</h3>
-            <p>
-              Monitora disponibilità, pagamenti, occupazione e performance direttamente dalla dashboard.
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-
-    <section id="funzionalita" class="section bg-light">
-      <div class="container">
-
-        <div class="text-center">
-          <h2>Funzionalità principali</h2>
-          <p class="lead">
-            Tutti gli strumenti necessari per gestire spiagge, lidi e beach club in modo moderno ed efficiente.
-          </p>
-        </div>
-
-        <div class="grid-2">
-
-          <div class="feature-box">
-            <h3>🏖️ Mappa interattiva</h3>
-            <p>
-              Visualizza ombrelloni, lettini e cabine in tempo reale con gestione immediata delle disponibilità.
-            </p>
-          </div>
-
-          <div class="feature-box">
-            <h3>📅 Prenotazioni online</h3>
-            <p>
-              Permetti ai clienti di prenotare autonomamente dal sito web 24 ore su 24.
-            </p>
-          </div>
-
-          <div class="feature-box">
-            <h3>💳 Pagamenti integrati</h3>
-            <p>
-              Incassa online tramite carta, PayPal e sistemi digitali riducendo no-show e mancati pagamenti.
-            </p>
-          </div>
-
-          <div class="feature-box">
-            <h3>📊 Report e statistiche</h3>
-            <p>
-              Analizza occupazione, ricavi, aree più richieste e andamento della stagione.
-            </p>
-          </div>
-
-          <div class="feature-box">
-            <h3>👥 CRM clienti</h3>
-            <p>
-              Gestisci clienti abituali, preferenze, storico prenotazioni e abbonamenti stagionali.
-            </p>
-          </div>
-
-          <div class="feature-box">
-            <h3>📱 Accesso mobile</h3>
-            <p>
-              Utilizza il software direttamente da smartphone o tablet anche mentre sei in spiaggia.
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-
-    <section id="vantaggi" class="section">
-      <div class="container split-layout">
-
-        <div>
-          <h2>Perché digitalizzare il tuo stabilimento balneare</h2>
-
-          <ul class="check-list">
-            <li><strong>Riduci errori e doppie prenotazioni</strong></li>
-            <li><strong>Velocizzi il lavoro dello staff</strong></li>
-            <li><strong>Migliori l’esperienza del cliente</strong></li>
-            <li><strong>Aumenti l’occupazione giornaliera</strong></li>
-            <li><strong>Incassi online prima dell’arrivo</strong></li>
-            <li><strong>Gestisci tutto da smartphone e tablet</strong></li>
-            <li><strong>Controlli ricavi e performance in tempo reale</strong></li>
-          </ul>
-        </div>
-
-        <div class="highlight-box">
-          <h2>Ideale per</h2>
-
-          <ul>
-            <li>✔️ Piccoli lidi</li>
-            <li>✔️ Grandi stabilimenti balneari</li>
-            <li>✔️ Beach club</li>
-            <li>✔️ Resort sul mare</li>
-            <li>✔️ Campeggi con area spiaggia</li>
-            <li>✔️ Villaggi turistici</li>
-          </ul>
-        </div>
-
-      </div>
-
-      <div class="container stats-grid">
-
-        <div class="stat-card">
-          <div class="stat-number">24/7</div>
-          <p>Prenotazioni online sempre attive</p>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-number">-80%</div>
-          <p>Riduzione errori manuali</p>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-number">+35%</div>
-          <p>Migliore gestione occupazione</p>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-number">100%</div>
-          <p>Controllo digitale della spiaggia</p>
-        </div>
-
-      </div>
-    </section>
-
-
-    <section id="faq" class="section bg-light">
-      <div class="container">
-
-        <div class="text-center">
-          <h2>FAQ</h2>
-          <p class="lead">
-            Domande frequenti sul software gestionale per stabilimenti balneari.
-          </p>
-        </div>
-
-        <div class="faq-grid">
-
-          <div class="faq-item">
-            <h3>Cos’è un gestionale per stabilimenti balneari?</h3>
-            <p>
-              È un software che permette di gestire prenotazioni, clienti, ombrelloni, incassi e disponibilità in modo digitale.
-            </p>
-          </div>
-
-          <div class="faq-item">
-            <h3>Il software funziona anche da smartphone?</h3>
-            <p>
-              Sì, il gestionale è ottimizzato per smartphone, tablet e desktop.
-            </p>
-          </div>
-
-          <div class="faq-item">
-            <h3>È adatto anche a piccoli lidi?</h3>
-            <p>
-              Certamente. Il sistema è scalabile ed è utile sia per piccole spiagge sia per grandi beach club.
-            </p>
-          </div>
-
-          <div class="faq-item">
-            <h3>È possibile integrare i pagamenti online?</h3>
-            <p>
-              Sì, il software supporta pagamenti digitali e acconti online.
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-
-    <section id="contatti" class="final-cta">
-      <div class="container text-center">
-
-        <h2>Trasforma la gestione della tua spiaggia in un sistema semplice, digitale e redditizio</h2>
-
-        <p>
-          Abbandona fogli Excel, prenotazioni manuali e continui errori operativi.
-          Con un gestionale professionale puoi automatizzare il lavoro quotidiano, migliorare il servizio e aumentare il valore di ogni postazione in spiaggia.
-        </p>
-
-        <a href="#" class="btn-secondary">Prenota una demo gratuita</a>
-      </div>
-    </section>
-
-  </main>
-
-
-  <footer class="site-footer">
+  <!-- ========== INTRO SECTION ========== -->
+  <section class="section" id="intro">
     <div class="container">
-      © 2026 BeachGestPro — Gestionale Stabilimenti Balneari
+      <div class="section__header section__header--center fade-in">
+        <span class="section__label">Il contesto</span>
+        <h2 class="section__title">Gestire uno stabilimento balneare oggi è una sfida complessa</h2>
+        <p class="section__subtitle">Prenotazioni last minute, clienti abituali da fidelizzare, ombrelloni da assegnare senza errori, pagamenti da monitorare e una stagionalità che impone di massimizzare ogni giorno di apertura.</p>
+      </div>
+      <div class="fade-in" style="max-width:720px;margin:0 auto;text-align:center;">
+        <p style="font-size:1.05rem;color:var(--gray-600);line-height:1.8;">Se ancora utilizzi fogli Excel, WhatsApp o sistemi manuali per organizzare la tua spiaggia, sai già quanto tempo si perde e quanti errori possono compromettere incassi e organizzazione. Un moderno <strong>gestionale per stabilimenti balneari</strong> nasce proprio per risolvere questi problemi: automatizza le operazioni quotidiane, ottimizza l'occupazione della spiaggia e ti permette di aumentare i ricavi senza aumentare il lavoro.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== COS'È ========== -->
+  <section class="section section--gray" id="cos-e">
+    <div class="container">
+      <div class="section__header fade-in">
+        <span class="section__label">Definizione</span>
+        <h2 class="section__title">Cos'è un gestionale per stabilimenti balneari</h2>
+        <p class="section__subtitle">Un gestionale spiagge è una piattaforma digitale progettata per semplificare e automatizzare tutte le attività operative di uno stabilimento balneare, lido o spiaggia attrezzata. Non si tratta di un semplice sistema di prenotazione, ma di un vero e proprio software gestionale completo per spiaggia.</p>
+      </div>
+      <div class="why__grid fade-in">
+        <div class="why-card">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Mappa interattiva</h3>
+          <p class="why-card__text">Ombrelloni, lettini e cabine visualizzati in tempo reale con disponibilità aggiornata.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Prenotazioni online e in reception</h3>
+          <p class="why-card__text">Gestione centralizzata da qualsiasi canale, senza conflitti o duplicazioni.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Gestione disponibilità in tempo reale</h3>
+          <p class="why-card__text">Aggiornamento istantaneo di ogni modifica, su tutti i dispositivi.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Assegnazione automatica dei posti</h3>
+          <p class="why-card__text">Niente più errori: il sistema assegna e ottimizza in autonomia.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Pagamenti digitali e anticipati</h3>
+          <p class="why-card__text">Acconti e saldi online per ridurre no-show e mancati incassi.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Archivio clienti e storico</h3>
+          <p class="why-card__text">Profilo completo di ogni cliente con prenotazioni e preferenze.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Report e statistiche</h3>
+          <p class="why-card__text">Dati chiari su occupazione, revenue e performance per prendere decisioni strategiche.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PROBLEMI ========== -->
+  <section class="section" id="problemi">
+    <div class="container">
+      <div class="section__header section__header--center fade-in">
+        <span class="section__label">Le criticità</span>
+        <h2 class="section__title">I problemi più comuni nella gestione senza software</h2>
+        <p class="section__subtitle">Chi gestisce uno stabilimento balneare senza un gestionale ombrelloni conosce bene queste situazioni.</p>
+      </div>
+      <div class="problems__grid">
+        <article class="problem-card fade-in">
+          <div class="problem-card__icon">⚠️</div>
+          <h3 class="problem-card__title">Doppie prenotazioni e caos organizzativo</h3>
+          <p class="problem-card__text">Un cliente prenota per telefono, un altro via messaggio, un altro ancora arriva direttamente in spiaggia. Senza un sistema centralizzato, il rischio di assegnare lo stesso ombrellone due volte è altissimo.</p>
+        </article>
+        <article class="problem-card fade-in">
+          <div class="problem-card__icon">⏳</div>
+          <h3 class="problem-card__title">Perdita di tempo nella gestione manuale</h3>
+          <p class="problem-card__text">Ogni modifica deve essere aggiornata manualmente: taccuini, fogli Excel, messaggi WhatsApp. Il personale perde ore preziose ogni giorno.</p>
+        </article>
+        <article class="problem-card fade-in">
+          <div class="problem-card__icon">📉</div>
+          <h3 class="problem-card__title">Difficoltà nel massimizzare l'occupazione</h3>
+          <p class="problem-card__text">Senza una visione chiara della spiaggia, è difficile ottimizzare gli spazi e ridurre le "zone vuote" che generano mancati incassi.</p>
+        </article>
+        <article class="problem-card fade-in">
+          <div class="problem-card__icon">💸</div>
+          <h3 class="problem-card__title">Mancanza di controllo sui pagamenti</h3>
+          <p class="problem-card__text">Senza un sistema integrato, è facile perdere traccia di acconti, saldi e no-show.</p>
+        </article>
+        <article class="problem-card fade-in">
+          <div class="problem-card__icon">😤</div>
+          <h3 class="problem-card__title">Scarsa esperienza cliente</h3>
+          <p class="problem-card__text">Il cliente moderno vuole prenotare in pochi secondi online, scegliere il proprio posto e pagare subito. Senza un sistema digitale, il rischio è perdere prenotazioni a favore dei competitor.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FUNZIONALITÀ ========== -->
+  <section class="section section--gray" id="funzionalita">
+    <div class="container">
+      <div class="section__header section__header--center fade-in">
+        <span class="section__label">Funzionalità</span>
+        <h2 class="section__title">Un software per lidi e spiagge attrezzate completo</h2>
+        <p class="section__subtitle">Progettato per coprire ogni fase della gestione, dalla prenotazione fino al check-out del cliente.</p>
+      </div>
+      <div class="features__grid">
+        <article class="feature-card fade-in">
+          <div class="feature-card__icon">🏖️</div>
+          <h3 class="feature-card__title">Mappa interattiva della spiaggia</h3>
+          <p class="feature-card__text">Visualizza in tempo reale tutti gli ombrelloni, lettini e cabine. Puoi trascinare, modificare e organizzare la disposizione in base alle esigenze stagionali.</p>
+        </article>
+        <article class="feature-card fade-in">
+          <div class="feature-card__icon">📅</div>
+          <h3 class="feature-card__title">Prenotazione online automatizzata</h3>
+          <p class="feature-card__text">Il cliente prenota direttamente dal sito web, scegliendo:</p>
+          <ul class="feature-card__list">
+            <li>Data</li>
+            <li>Ombrellone specifico</li>
+            <li>Servizi aggiuntivi (lettini, cabine, ristorante)</li>
+          </ul>
+        </article>
+        <article class="feature-card fade-in">
+          <div class="feature-card__icon">💳</div>
+          <h3 class="feature-card__title">Pagamenti integrati</h3>
+          <p class="feature-card__text">Acconti e saldi gestiti online con carta di credito, PayPal o altri metodi digitali, riducendo no-show e mancati incassi.</p>
+        </article>
+        <article class="feature-card fade-in">
+          <div class="feature-card__icon">👥</div>
+          <h3 class="feature-card__title">Gestione clienti e fidelizzazione</h3>
+          <p class="feature-card__text">Ogni cliente ha un profilo con storico prenotazioni, preferenze e abitudini. Permette di creare offerte personalizzate e aumentare la fidelizzazione.</p>
+        </article>
+        <article class="feature-card fade-in">
+          <div class="feature-card__icon">📊</div>
+          <h3 class="feature-card__title">Report e analisi occupazione</h3>
+          <p class="feature-card__text">Controlla in tempo reale:</p>
+          <ul class="feature-card__list">
+            <li>Tasso di occupazione spiaggia</li>
+            <li>Revenue giornaliero e stagionale</li>
+            <li>Performance per area della spiaggia</li>
+          </ul>
+        </article>
+        <article class="feature-card fade-in">
+          <div class="feature-card__icon">📱</div>
+          <h3 class="feature-card__title">Gestione da mobile</h3>
+          <p class="feature-card__text">Il personale può lavorare direttamente da smartphone o tablet, anche in spiaggia, aggiornando disponibilità e prenotazioni in tempo reale.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VANTAGGI ========== -->
+  <section class="section" id="vantaggi">
+    <div class="container">
+      <div class="section__header fade-in">
+        <span class="section__label">Vantaggi</span>
+        <h2 class="section__title">I vantaggi concreti di un gestionale per spiagge e lidi</h2>
+        <p class="section__subtitle">Adottare un gestionale stabilimenti balneari non significa solo digitalizzare il lavoro, ma trasformare il modo in cui lo stabilimento genera profitto.</p>
+      </div>
+      <div class="benefits__wrapper fade-in">
+        <div class="benefits__visual">
+          <div class="benefit-stat">
+            <div class="benefit-stat__value">+35%</div>
+            <div class="benefit-stat__label">Aumento occupazione media</div>
+            <div class="benefit-stat__bar"><div class="benefit-stat__bar-fill" style="width:78%"></div></div>
+          </div>
+          <div class="benefit-stat">
+            <div class="benefit-stat__value">-60%</div>
+            <div class="benefit-stat__label">Riduzione no-show</div>
+            <div class="benefit-stat__bar"><div class="benefit-stat__bar-fill" style="width:60%"></div></div>
+          </div>
+          <div class="benefit-stat">
+            <div class="benefit-stat__value">-15h</div>
+            <div class="benefit-stat__label">Ore risparmiate a settimana</div>
+            <div class="benefit-stat__bar"><div class="benefit-stat__bar-fill" style="width:85%"></div></div>
+          </div>
+        </div>
+        <div class="benefits__list">
+          <div class="benefit-item">
+            <div class="benefit-item__icon">⏱️</div>
+            <div>
+              <h3 class="benefit-item__title">Risparmio di tempo operativo</h3>
+              <p class="benefit-item__text">Automatizzando prenotazioni e assegnazioni, il personale riduce drasticamente le attività manuali e può concentrarsi sull'accoglienza dei clienti.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-item__icon">📈</div>
+            <div>
+              <h3 class="benefit-item__title">Aumento dei ricavi</h3>
+              <p class="benefit-item__text">Una gestione ottimizzata degli spazi permette di ridurre le aree inutilizzate e aumentare il tasso di occupazione anche nei giorni meno affollati.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-item__icon">🎯</div>
+            <div>
+              <h3 class="benefit-item__title">Migliore organizzazione della spiaggia</h3>
+              <p class="benefit-item__text">Niente più errori di assegnazione: ogni ombrellone è sempre sotto controllo, con disponibilità aggiornata in tempo reale.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-item__icon">💰</div>
+            <div>
+              <h3 class="benefit-item__title">Riduzione dei no-show</h3>
+              <p class="benefit-item__text">Grazie ai pagamenti anticipati online, diminuiscono le prenotazioni non rispettate.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-item__icon">😎</div>
+            <div>
+              <h3 class="benefit-item__title">Esperienza cliente migliorata</h3>
+              <p class="benefit-item__text">Prenotare un ombrellone diventa semplice, veloce e digitale, aumentando la soddisfazione e la probabilità di ritorno.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-item__icon">📊</div>
+            <div>
+              <h3 class="benefit-item__title">Controllo totale del business</h3>
+              <p class="benefit-item__text">Dati chiari e aggiornati permettono decisioni strategiche migliori: prezzi dinamici, offerte stagionali, gestione dei picchi di domanda.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PERCHÉ NOI ========== -->
+  <section class="section section--gray" id="perche">
+    <div class="container">
+      <div class="section__header section__header--center fade-in">
+        <span class="section__label">Perché sceglierci</span>
+        <h2 class="section__title">Perché scegliere questo gestionale rispetto ad altri</h2>
+        <p class="section__subtitle">Non tutti i software per stabilimenti balneari sono uguali. Molti si limitano alla semplice prenotazione, senza offrire una gestione realmente completa.</p>
+      </div>
+      <div class="why__grid">
+        <div class="why-card fade-in">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Pensata per spiagge e lidi italiani</h3>
+          <p class="why-card__text">Non è un adattamento di un software generico, ma una piattaforma costruita sulle reali esigenze degli stabilimenti balneari.</p>
+        </div>
+        <div class="why-card fade-in">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Tutto in un unico sistema</h3>
+          <p class="why-card__text">Prenotazioni, mappa, pagamenti e CRM clienti sono perfettamente integrati.</p>
+        </div>
+        <div class="why-card fade-in">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Facile da usare</h3>
+          <p class="why-card__text">Interfaccia intuitiva, pensata per l'uso quotidiano in ambiente operativo stagionale, anche per personale non tecnico.</p>
+        </div>
+        <div class="why-card fade-in">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Scalabile</h3>
+          <p class="why-card__text">Funziona sia per piccoli lidi che per grandi stabilimenti con centinaia di ombrelloni.</p>
+        </div>
+        <div class="why-card fade-in">
+          <div class="why-card__check">✓</div>
+          <h3 class="why-card__title">Vendita diretta online</h3>
+          <p class="why-card__text">Riduce la dipendenza da telefonate e intermediari, aumentando le prenotazioni dirette.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section__header section__header--center fade-in">
+        <span class="section__label">FAQ</span>
+        <h2 class="section__title">Domande frequenti sul gestionale</h2>
+        <p class="section__subtitle">Tutto quello che devi sapere prima di digitalizzare la tua spiaggia.</p>
+      </div>
+      <div class="faq__list fade-in">
+        <div class="faq-item active">
+          <button class="faq-item__question" aria-expanded="true">
+            Cos'è un gestionale per stabilimenti balneari?
+            <span class="faq-item__icon">+</span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              È un software che permette di gestire prenotazioni, ombrelloni, clienti e pagamenti di una spiaggia o lido in modo digitale e automatizzato.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            Serve anche per piccoli stabilimenti?
+            <span class="faq-item__icon">+</span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              Sì, è utile sia per piccoli lidi con poche decine di ombrelloni sia per grandi spiagge attrezzate.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            Posso gestire le prenotazioni online?
+            <span class="faq-item__icon">+</span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              Sì, il sistema permette ai clienti di prenotare direttamente dal sito dello stabilimento in tempo reale.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            È possibile evitare le doppie prenotazioni?
+            <span class="faq-item__icon">+</span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              Sì, grazie alla mappa interattiva e alla sincronizzazione automatica delle disponibilità.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            Il software funziona da smartphone?
+            <span class="faq-item__icon">+</span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              Sì, è ottimizzato per mobile e tablet, ideale per la gestione direttamente in spiaggia.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-item__question" aria-expanded="false">
+            Posso aumentare i guadagni con questo gestionale?
+            <span class="faq-item__icon">+</span>
+          </button>
+          <div class="faq-item__answer">
+            <div class="faq-item__answer-inner">
+              Sì, ottimizzando l'occupazione e riducendo i no-show puoi aumentare significativamente il fatturato stagionale.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="cta" id="contatti">
+    <div class="container cta__inner">
+      <h2 class="cta__title fade-in">Porta la tua spiaggia al livello successivo</h2>
+      <p class="cta__subtitle fade-in">Il mercato dei lidi e degli stabilimenti balneari è sempre più competitivo. Oggi non basta più offrire un buon servizio: serve organizzazione, velocità e capacità di massimizzare ogni metro quadrato della spiaggia.<br><br>Non perdere altre stagioni tra fogli Excel, errori e tempo sprecato.</p>
+      <a href="#" class="cta__btn fade-in">🚀 Digitalizza oggi la tua spiaggia</a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__logo">🏖️ BeachManager</span>
+      <p class="footer__text">© 2026 BeachManager. Tutti i diritti riservati.</p>
+      <div class="footer__links">
+        <a href="#" class="footer__link">Privacy</a>
+        <a href="#" class="footer__link">Termini</a>
+        <a href="#" class="footer__link">Contatti</a>
+      </div>
     </div>
   </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close mobile nav on link click
+    navLinks.querySelectorAll('.nav__link, .nav__cta').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-item__question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isActive = item.classList.contains('active');
+
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('active');
+          i.querySelector('.faq-item__question').setAttribute('aria-expanded', 'false');
+        });
+
+        // Open clicked if it was closed
+        if (!isActive) {
+          item.classList.add('active');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // Scroll animations (Intersection Observer)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 
 </body>
 </html>
